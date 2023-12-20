@@ -9,17 +9,20 @@ Protected Routes: Certain routes are protected and can only be accessed by authe
 Logout: Users can log out to end their authenticated session.
 
 ## Installation
-* Copy code
-* npm install
+* Clone the repository git@github.com:awaisayub149/auth-frontend.git.
+* cd auth-frontend.
+* nvm use 16 (Node version 16).
+* npm install.
 
 ## Usage
+* Stop/kill the port 3000:
 * Start the development server:
-* npm run dev
+* npm run dev.
 * Open your browser and navigate to http://localhost:3000.
 
-Use the provided login form to log in with a valid username and password.
-
-Access the protected routes and see how the authentication mechanism works.
+## Usage
+* Use the provided login form to log in with a valid username and password.
+* Access the protected routes and see how the authentication mechanism works.
 
 ## Routes
 * Login: /
