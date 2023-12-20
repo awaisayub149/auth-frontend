@@ -1,9 +1,6 @@
-import { connectMongoDB } from "@/lib/mongodb";
-import User from "@/models/user";
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
-import bcrypt from "bcryptjs";
-import { encode } from "next-auth/jwt";
+import axios from "axios"
 
 export const authOptions = {
   providers: [
@@ -12,31 +9,23 @@ export const authOptions = {
       credentials: {},
 
       async authorize(credentials, req) {
-        const { name,id, email, token } = credentials;
-        console.log(name, email, id, token, "these are the values from the token")
-
+        const { password, email } = credentials;
         try {
-          const user = {
-            name, 
-            email,
-            _id: id, 
-            token
-          }
-
-          return user;
+          const { data } = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/public/login`, { Email: email, Password: password });
+          return { ...data.user, token: data.token };
         } catch (error) {
           console.log("Error: ", error);
         }
       },
     }),
   ],
+  
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
         // If a user is signing in, update the token with user information
-        token.id = user.id;
+        token.id = user._id;
         token.email = user.email;
-
         // Add the encoded token to the token object
         token.encodedToken = user.token || null;
       }

@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import axios from "axios"
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
@@ -17,17 +16,9 @@ export default function LoginForm() {
     e.preventDefault();
 
     try {
-
-      const { data } = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/public/login`, { Email: email, Password: password });
-
-      if (!data) {
-        setError("Invalid Credentials");
-        return;
-      }
-
       await signIn("credentials", {
-        ...data.user,
-        token: data.token,
+        email, 
+        password, 
         redirect: false,
       });
 
